@@ -1,0 +1,22 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Humanizer{% endblock %}
+
+{% block content %}
+<section class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="hero-title mb-4">AI Text <span>Humanizer</span></h1>
+            <p class="hero-subtitle mb-5">Transform AI-generated text into natural, human-like writing.</p>
+
+            <div class="card p-4 border-0" style="background: var(--card-bg); border-radius: 16px;">
+                <textarea class="form-control mb-3" rows="10" placeholder="Paste your AI-generated text here..."
+                    style="background: #0f172a; border: 1px solid #334155; color: #ffffff;"></textarea>
+                <div class="d-grid">
+                    <button class="btn btn-gradient btn-lg">Humanize Text</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'web/base.html' %}
+
+{% block title %}Grammar Checker{% endblock %}
+
+{% block content %}
+<section class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="hero-title mb-4">Grammar <span>Checker</span></h1>
+            <p class="hero-subtitle mb-5">Eliminate errors and enhance the clarity of your writing instantly.</p>
+
+            <div class="card p-4 border-0" style="background: var(--card-bg); border-radius: 16px;">
+                <textarea class="form-control mb-3" rows="10" placeholder="Paste your text here to check grammar..."
+                    style="background: #0f172a; border: 1px solid #334155; color: #ffffff;"></textarea>
+                <div class="d-grid">
+                    <button id="checkGrammarButton" class="btn btn-gradient btn-lg">Check Grammar</button>
+                </div>
+            </div>
+
+            <!-- Result Section (Hidden by default) -->
+            <div id="resultSection" class="mt-5" style="display: none;">
+                <div class="card p-4 border-0" style="background: var(--card-bg); border-radius: 16px;">
+                    <h3 class="mb-4" style="color: var(--text-main);">Grammar Score</h3>
+                    <div class="mb-2 d-flex justify-content-between">
+                        <span style="color: var(--text-muted);">Needs Work</span>
+                        <span class="fw-bold" style="color: var(--text-main);">100% Perfect</span>
+                    </div>
+                    <input type="range" class="form-range" id="grammarScoreSlider" min="0" max="100" value="100"
+                        disabled>
+                    <div class="mt-3 text-end">
+                        <span class="badge bg-success rounded-pill px-3 py-2">No Errors Found</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkBtn = document.getElementById('checkGrammarButton');
+        const resultSection = document.getElementById('resultSection');
+
+        if (checkBtn && resultSection) {
+            checkBtn.addEventListener('click', function () {
+                // Simulate processing delay
+                resultSection.style.display = 'block';
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'web/base.html' %}
+
+{% block title %}AI Detector{% endblock %}
+
+{% block content %}
+<section class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="hero-title mb-4">AI Content <span>Detector</span></h1>
+            <p class="hero-subtitle mb-5">Paste your text below to check if it was written by an AI.</p>
+
+            <div class="card p-4 border-0" style="background: var(--card-bg); border-radius: 16px;">
+                <textarea class="form-control mb-3" rows="10" placeholder="Paste your text here..."
+                    style="background: #0f172a; border: 1px solid #334155; color: #ffffff;"></textarea>
+                <div class="d-grid">
+                    <button id="checkButton" class="btn btn-gradient btn-lg">Check for AI</button>
+                </div>
+            </div>
+
+            <!-- Result Section (Hidden by default) -->
+            <div id="resultSection" class="mt-5" style="display: none;">
+                <div class="card p-4 border-0" style="background: var(--card-bg); border-radius: 16px;">
+                    <h3 class="mb-4" style="color: var(--text-main);">AI Probability Score</h3>
+                    <div class="mb-2 d-flex justify-content-between">
+                        <span style="color: var(--text-muted);">Human</span>
+                        <span class="fw-bold" style="color: var(--text-main);">100% AI</span>
+                    </div>
+                    <input type="range" class="form-range" id="aiScoreSlider" min="0" max="100" value="100" disabled>
+                    <div class="mt-3 text-end">
+                        <span class="badge bg-danger rounded-pill px-3 py-2">High AI Detected</span>
+                    </div>
+
+                    <!-- Highlighted Text Display -->
+                    <div class="mt-4 p-3 rounded"
+                        style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); text-align: left;">
+                        <h5 class="mb-3" style="color: var(--text-muted); font-size: 0.9rem;">Analysis Result:</h5>
+                        <p id="highlightedText" style="color: #cbd5e1; line-height: 1.6;"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .ai-highlight {
+        background-color: rgba(239, 68, 68, 0.2);
+        /* Red highlight */
+        color: #fff;
+        border-bottom: 2px solid #ef4444;
+        padding: 2px 0;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkBtn = document.getElementById('checkButton');
+        const resultSection = document.getElementById('resultSection');
+        const textArea = document.querySelector('textarea');
+        const highlightedTextContainer = document.getElementById('highlightedText');
+
+        if (checkBtn && resultSection && textArea && highlightedTextContainer) {
+            checkBtn.addEventListener('click', function () {
+                const text = textArea.value.trim();
+
+                if (!text) {
+                    alert("Please enter some text first.");
+                    return;
+                }
+
+                resultSection.style.display = 'block';
+                highlightedTextContainer.innerHTML = `<span class="ai-highlight">${text}</span>`;
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+        }
+    });
+</script>
+{% endblock %}

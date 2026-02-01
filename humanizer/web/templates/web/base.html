@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motiver - {% block title %}AI Checker & Humanizer{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --gradient-start: #3b82f6;
+            --gradient-end: #8b5cf6;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ffffff !important;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .hero-section {
+            padding: 100px 0;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15), transparent 70%);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -0.05em;
+            line-height: 1.2;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            color: white;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .feature-icon-wrapper {
+            background: rgba(59, 130, 246, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            flex-shrink: 0;
+            color: var(--accent-color);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: inherit;
+        }
+
+        .feature-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .feature-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 0;
+            margin-top: auto;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Fix for dark background inputs */
+        .form-control {
+            color: #ffffff !important;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+            opacity: 1;
+        }
+
+        .form-control:focus {
+            color: #ffffff !important;
+            background-color: #0f172a !important;
+            /* Keep dark background on focus */
+            border-color: var(--accent-color) !important;
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25) !important;
+        }
+
+
+        .word-count-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .limit-exceeded {
+            color: #ef4444 !important;
+            border: 1px solid #ef4444;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">Motiver</a>
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'ai_detector' %}active{% endif %}"
+                            href="{% url 'ai_detector' %}">AI Detector</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'humanizer' %}active{% endif %}"
+                            href="{% url 'humanizer' %}">Humanizer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'grammar_checker' %}active{% endif %}"
+                            href="{% url 'grammar_checker' %}">Grammar Checker</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item ms-lg-3">
+                        <span class="text-white fw-bold">Welcome, {{ user.username }}</span>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm rounded-pill">Logout</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-gradient" href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Motiver. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const textarea = document.querySelector('textarea');
+            // Select the main action button (first one in the specific container usually)
+            // Enhancing selection to be more robust
+            const submitBtn = document.querySelector('.card .btn-gradient');
+            const isAuthenticated = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+
+            if (textarea && submitBtn) {
+                // Create Word Count Element
+                const wordCountDiv = document.createElement('div');
+                wordCountDiv.className = 'd-flex justify-content-between align-items-center mt-2';
+                wordCountDiv.innerHTML = `
+                    <span id="wordCountBadge" class="word-count-badge">0 / 1000 words</span>
+                    <span id="limitWarning" class="text-danger small fw-bold" style="display:none; margin-left: 10px;">Limit Exceeded. <a href="{% url 'login' %}" style="color: #ef4444; text-decoration: underline;">Login to continue</a>.</span>
+                `;
+                textarea.parentNode.insertBefore(wordCountDiv, textarea.nextSibling);
+
+                const wordCountBadge = document.getElementById('wordCountBadge');
+                const limitWarning = document.getElementById('limitWarning');
+
+                function updateCount() {
+                    const text = textarea.value.trim();
+                    const words = text ? text.split(/\s+/).length : 0;
+
+                    wordCountBadge.textContent = `${words} / 1000 words`;
+
+                    if (!isAuthenticated && words > 1000) {
+                        wordCountBadge.classList.add('limit-exceeded');
+                        limitWarning.style.display = 'inline';
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('disabled');
+                        submitBtn.style.opacity = '0.5';
+                        submitBtn.style.cursor = 'not-allowed';
+                    } else {
+                        wordCountBadge.classList.remove('limit-exceeded');
+                        limitWarning.style.display = 'none';
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('disabled');
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.cursor = 'pointer';
+                    }
+                }
+
+                textarea.addEventListener('input', updateCount);
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
